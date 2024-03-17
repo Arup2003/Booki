@@ -1,39 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_activity_constraint_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
     tools:context=".MainActivity">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="#fdfcf7"
-        app:layout_constraintTop_toTopOf="parent">
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintStart_toStartOf="parent"
-            android:padding="15dp"
-            android:foregroundGravity="center"
-            android:src="@drawable/hamburger_menu"/>
-        <TextView
-            android:id="@+id/main_activity_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Booki"
-            android:textSize="20dp"
-            android:gravity="center"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <FrameLayout
+        android:id="@+id/main_activity_fragment_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+    <eightbitlab.com.blurview.BlurView
+        android:id="@+id/main_activity_actionbar_blurview"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="28dp"
+            android:background="@color/bottom_nav_and_actionbar_color"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/main_activity_menu"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:foregroundGravity="center"
+                android:padding="18dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/hamburger_menu"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Booki"
+                android:fontFamily="@font/mainfont"
+                android:textSize="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </eightbitlab.com.blurview.BlurView>
+
+    <eightbitlab.com.blurview.BlurView
+        android:id="@+id/main_activity_bottomnavigation_blurview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/main_activity_bottomnavigation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bottom_nav_and_actionbar_color"
+            app:itemIconSize="21dp"
+            app:labelVisibilityMode="auto"
+            app:itemActiveIndicatorStyle="@style/App.Custom.Indicator"
+            app:menu="@menu/bottom_navigation_menu"/>
+    </eightbitlab.com.blurview.BlurView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
