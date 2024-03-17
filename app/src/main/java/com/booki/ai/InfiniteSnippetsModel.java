@@ -4,6 +4,8 @@ public class InfiniteSnippetsModel {
     private String heading, body;
     private int image_src;
 
+    private int temp1;
+
     public InfiniteSnippetsModel(String heading, String body, Integer image_src) {
         this.heading = heading;
         this.body = body;
