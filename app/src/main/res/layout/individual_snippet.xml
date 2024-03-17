@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="65dp"
+    android:paddingStart="30dp"
+    android:paddingEnd="30dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/individual_snippet_card"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:backgroundTint="@color/background_color"
+        app:cardCornerRadius="15dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/individual_snippet_imageview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/individual_snippet_heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="This is the heading text"
+        android:textSize="35dp"
+        android:gravity="center"
+        android:fontFamily="@font/mainfont"
+        app:layout_constraintTop_toBottomOf="@id/individual_snippet_card"/>
+
+    <TextView
+        android:id="@+id/individual_snippet_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textSize="16dp"
+        android:text="This is the body of the snippet"
+        app:layout_constraintTop_toBottomOf="@id/individual_snippet_heading"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
