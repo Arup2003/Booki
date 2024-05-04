@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "363160883230",
+    "project_id": "booki-16748",
+    "storage_bucket": "booki-16748.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:363160883230:android:058b2bc11e0bd55fb85e0f",
+        "android_client_info": {
+          "package_name": "com.booki.ai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqMtZCrtaJrBOjm6VY8Y5XVDlklneKZm8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

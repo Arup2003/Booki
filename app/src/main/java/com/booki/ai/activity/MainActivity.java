@@ -1,4 +1,4 @@
-package com.booki.ai;
+package com.booki.ai.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,14 +7,14 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.booki.ai.R;
+import com.booki.ai.fragment.InfiniteSnippetsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 

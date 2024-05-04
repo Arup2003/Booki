@@ -1,4 +1,4 @@
-package com.booki.ai;
+package com.booki.ai.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.booki.ai.model.InfiniteSnippetsModel;
+import com.booki.ai.R;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import java.util.ArrayList;
 
 public class InfiniteSnippetsAdapter extends RecyclerView.Adapter<InfiniteSnippetsAdapter.ViewHolder>{
@@ -32,7 +38,12 @@ public class InfiniteSnippetsAdapter extends RecyclerView.Adapter<InfiniteSnippe
         //Set Data of Each Snippet
         holder.heading.setText(arrayList.get(holder.getAdapterPosition()).getHeading());
         holder.body.setText(arrayList.get(holder.getAdapterPosition()).getBody());
-        holder.imageView.setImageResource(arrayList.get(holder.getAdapterPosition()).getImage_src());
+
+        Glide.with(context)
+                .load(arrayList.get(holder.getAdapterPosition()).getImgSrc())
+                .fitCenter()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(holder.imageView);
     }
 
     @Override
