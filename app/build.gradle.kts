@@ -45,6 +45,10 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-
+    implementation("co.aenterhy:toggleswitch:1.0.0")
     implementation("com.github.Dimezis:BlurView:version-2.0.3")
+
+    implementation("com.github.valkriaine:Bouncy:2.3")
+    implementation("com.ncorti:slidetoact:0.11.0")
+
 }

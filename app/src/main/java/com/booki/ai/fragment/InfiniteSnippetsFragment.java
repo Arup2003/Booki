@@ -21,6 +21,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -32,7 +33,6 @@ public class InfiniteSnippetsFragment extends Fragment {
     InfiniteSnippetsAdapter adapter;
     ArrayList<InfiniteSnippetsModel> infinite_snippets_arraylist = new ArrayList<>();
     DatabaseReference dbReference;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,7 +49,7 @@ public class InfiniteSnippetsFragment extends Fragment {
         dbReference = FirebaseDatabase.getInstance().getReference("snippets");
 
 //        Fetching data from database
-        dbReference.addValueEventListener(new ValueEventListener() {
+        dbReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 infinite_snippets_arraylist.clear();
@@ -76,12 +76,6 @@ public class InfiniteSnippetsFragment extends Fragment {
 
             }
         });
-
-        //Temporary hardcoded data
-//        infinite_snippets_arraylist.add(new InfiniteSnippetsModel("The Great Gatsby", getString(R.string.teststrings), R.drawable.testimg4));
-//        infinite_snippets_arraylist.add(new InfiniteSnippetsModel("Harry Potter and the Philosopher's Stone", getString(R.string.teststring2), R.drawable.testimg3));
-//        infinite_snippets_arraylist.add(new InfiniteSnippetsModel("Lmao uwu qt", getString(R.string.teststring3), R.drawable.testimg2));
-
 
     }
 }

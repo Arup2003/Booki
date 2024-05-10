@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+
+        <shape android:shape="rectangle">
+            <solid android:color="@color/tag_color"/>
+            <corners android:radius="500dp" />
+            <size android:width="35dp"
+                android:height="35dp"/>
+        </shape>
+    </item>
+
+    <item
+        android:gravity="center"
+        android:height="15dp"
+        android:width="15dp">
+
+        <bitmap android:src="@drawable/heart" android:tint="@color/foreground_color"/>
+
+    </item>
+</layer-list>

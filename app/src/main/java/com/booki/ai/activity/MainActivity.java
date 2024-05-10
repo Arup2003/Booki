@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.booki.ai.R;
+
 import com.booki.ai.fragment.InfiniteSnippetsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -78,6 +79,9 @@ public class MainActivity extends AppCompatActivity {
                         menu.findItem(R.id.librarymenu).setIcon(R.drawable.library_icon_selected);
                         menu.findItem(R.id.storemenu).setIcon(R.drawable.store_icon_notselected);
                         menu.findItem(R.id.profilemenu).setIcon(R.drawable.profile_icon_notselected);
+
+
+
                     }
                 }
                 else if (id == R.id.storemenu){
@@ -101,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-        bottomNavigationView.setSelectedItemId(R.id.homemenu);
+        bottomNavigationView.setSelectedItemId(R.id.librarymenu);
     }
 
 }
