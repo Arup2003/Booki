@@ -17,9 +17,6 @@
             android:name=".activity.OnboardingActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.Onboarding_Age_GenderActivity"
-            android:exported="false" />
-        <activity
             android:name=".activity.LoginActivity"
             android:exported="false" />
         <activity

@@ -15,6 +15,7 @@
         android:textSize="25dp"
         android:textColor="@color/background_contrast"
         android:fontFamily="@font/league_spartan"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
     <ImageView
         android:id="@+id/fragment_pagegoals_cat"
