@@ -14,9 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.booki.ai.R;
+import com.booki.ai.activity.OnboardingActivity;
 import com.booki.ai.adapter.InfiniteSnippetsAdapter;
 import com.booki.ai.model.InfiniteSnippetsModel;
-import com.booki.ai.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,40 +26,76 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
+import com.yuyakaido.android.cardstackview.CardStackListener;
+import com.yuyakaido.android.cardstackview.CardStackView;
+import com.yuyakaido.android.cardstackview.Direction;
 
 import java.util.ArrayList;
 
-public class InfiniteSnippetsFragment extends Fragment {
-    RecyclerView recycle_main;
+public class Onboarding_SnippetFragment extends Fragment {
+    CardStackView cardStackView;
     InfiniteSnippetsAdapter adapter;
-    ArrayList<InfiniteSnippetsModel> infinite_snippets_arraylist = new ArrayList<>();
-
+    ArrayList<InfiniteSnippetsModel> arrayList = new ArrayList<>();
+    CardStackListener listener;
+    int top_snippet_position = 0;
+    static ArrayList<String> snippet_tags = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        return inflater.inflate(R.layout.fragment_infinite_snippets, container, false);
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_onboarding__snippet, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        listener = new CardStackListener() {
+            @Override
+            public void onCardDragging(Direction direction, float ratio) {
+            }
 
-        //Setting up recyclerview
-        recycle_main = view.findViewById(R.id.infinite_snippets_recycler);
-        adapter = new InfiniteSnippetsAdapter(getContext(), infinite_snippets_arraylist);
-        LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        recycle_main.setLayoutManager(manager);
-        recycle_main.setAdapter(adapter);
+            @Override
+            public void onCardSwiped(Direction direction) {
+                OnboardingActivity.Enable_next_btn(true);
+                if(direction.toString().equals("Right")) {
+                    snippet_tags.addAll(arrayList.get(top_snippet_position).getTags());
+                    for(String i:snippet_tags){
+                        System.out.println(i);
+                    }
+                }
+            }
 
-        //Snaphelper snaps the recyclerview in place
-        SnapHelper snapHelper = new PagerSnapHelper();
-        snapHelper.attachToRecyclerView(recycle_main);
+            @Override
+            public void onCardRewound() {
+
+            }
+
+            @Override
+            public void onCardCanceled() {
+
+            }
+
+            @Override
+            public void onCardAppeared(View view, int position) {
+                top_snippet_position = position;
+            }
+
+            @Override
+            public void onCardDisappeared(View view, int position) {
+
+            }
+        };
+
+        cardStackView = view.findViewById(R.id.fragment_onboardingsnippet_cardstackview);
+        adapter = new InfiniteSnippetsAdapter(getContext(), arrayList);
+        cardStackView.setLayoutManager(new CardStackLayoutManager(getContext(), listener));
+        cardStackView.setAdapter(adapter);
 
         fetchdata();
-
     }
+
 
     private void fetchdata() {
         //Define Database and Query
@@ -79,10 +116,9 @@ public class InfiniteSnippetsFragment extends Fragment {
                     String heading = snap.child("heading").getValue(String.class);
                     String body = snap.child("body").getValue(String.class);
                     StorageReference imagesrc = FirebaseStorage.getInstance().getReference("snippets").child("images").child(key+".png");
-                    System.out.println(imagesrc);
                     InfiniteSnippetsModel snippet = new InfiniteSnippetsModel(key, heading, body, imagesrc, tags_arraylist);
-                    infinite_snippets_arraylist.add(snippet);
-                    adapter.notifyItemInserted(infinite_snippets_arraylist.size() - 1);
+                    arrayList.add(snippet);
+                    adapter.notifyItemInserted(arrayList.size() - 1);
                 }
             }
             @Override
@@ -90,5 +126,9 @@ public class InfiniteSnippetsFragment extends Fragment {
 
             }
         });
+    }
+
+    public static ArrayList<String> getSnippet_tags() {
+        return snippet_tags;
     }
 }

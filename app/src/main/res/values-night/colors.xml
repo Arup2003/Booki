@@ -4,9 +4,12 @@
     <color name="white">#FFFFFFFF</color>
     <color name="foreground_color">#FFFFFFFF</color>
     <color name="background_color">#090908</color>
-    <color name="background_surface">#000000</color>
+    <color name="background_surface">#161B16</color>
+    <color name="background_contrast">#F0EEE2</color>
     <color name="secondary_background_color">#373734</color>
     <color name="bottom_nav_and_actionbar_color">#362B2B2B</color>
+
+    <color name="booki_orange">#995B00</color>
     <color name="shadow_color">#9E9E9E</color>
     <color name="secondary_foreground_color">#BABABA</color>
     <color name="tag_color">#808080</color>

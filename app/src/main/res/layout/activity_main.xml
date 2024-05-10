@@ -41,8 +41,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="Booki"
-                android:fontFamily="@font/mainfont"
+                android:text="@string/booki_logo"
+                android:fontFamily="@font/league_spartan"
                 android:textSize="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

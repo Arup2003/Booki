@@ -13,4 +13,17 @@
     <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">#83CF5C5C</item>
     </style>
+    <style name="Booki_logo_font">
+        <item name="android:fontFamily">@font/league_spartan</item>
+        <item name="android:textColor">@color/background_color</item>
+    </style>
+    <style name="Booki_logo_font_contrasted">
+        <item name="android:fontFamily">@font/league_spartan</item>
+        <item name="android:textColor">@color/background_contrast</item>
+    </style>
+
+    <style name="chipText" parent="TextAppearance.MaterialComponents.Chip">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/league_spartan</item>
+    </style>
 </resources>

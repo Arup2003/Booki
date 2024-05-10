@@ -1,20 +1,24 @@
 package com.booki.ai.model;
 
+import com.google.firebase.storage.StorageException;
+import com.google.firebase.storage.StorageReference;
+
+import java.util.ArrayList;
+
 public class InfiniteSnippetsModel {
 
     private String _id;
     private String heading;
     private String body;
-    private String imgSrc;
+    private StorageReference imgSrc;
+    private ArrayList<String> tags;
 
-    public InfiniteSnippetsModel(String _id, String heading, String body, String imgSrc) {
+    public InfiniteSnippetsModel(String _id, String heading, String body, StorageReference imgSrc, ArrayList<String> tags) {
         this._id = _id;
         this.heading = heading;
         this.body = body;
         this.imgSrc = imgSrc;
-    }
-
-    public InfiniteSnippetsModel() {
+        this.tags = tags;
     }
 
     public String get_id() {
@@ -41,11 +45,19 @@ public class InfiniteSnippetsModel {
         this.body = body;
     }
 
-    public String getImgSrc() {
+    public StorageReference getImgSrc() {
         return imgSrc;
     }
 
-    public void setImgSrc(String imgSrc) {
+    public void setImgSrc(StorageReference imgSrc) {
         this.imgSrc = imgSrc;
+    }
+
+    public ArrayList<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
     }
 }

@@ -40,12 +40,23 @@ dependencies {
     implementation("com.google.firebase:firebase-auth:23.0.0")
     implementation("com.google.firebase:firebase-database:21.0.0")
     implementation("com.google.firebase:firebase-storage:21.0.0")
-    implementation("com.github.bumptech.glide:glide:4.11.0")
+    implementation("com.firebaseui:firebase-ui-storage:7.2.0")
+    implementation("com.github.bumptech.glide:glide:4.14.2")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.14.2")
+    implementation("com.google.android.play:integrity:1.3.0")
+
+
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     implementation("co.aenterhy:toggleswitch:1.0.0")
+    implementation("com.google.android.gms:play-services-auth:21.1.1")
+
+    implementation("com.github.hoomanmmd:fadeoutparticle:1.1.0")
+    implementation("com.github.yuyakaido:CardStackView:v2.3.4")
+
     implementation("com.github.Dimezis:BlurView:version-2.0.3")
 
     implementation("com.github.valkriaine:Bouncy:2.3")
