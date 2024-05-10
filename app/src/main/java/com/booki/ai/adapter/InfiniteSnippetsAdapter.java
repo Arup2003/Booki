@@ -42,7 +42,6 @@ public class InfiniteSnippetsAdapter extends RecyclerView.Adapter<InfiniteSnippe
         Glide.with(context)
                 .load(arrayList.get(holder.getAdapterPosition()).getImgSrc())
                 .fitCenter()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.imageView);
     }
 

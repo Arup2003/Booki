@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background_color"
+    tools:context=".fragment.Onboarding_TimegoalsFragment">
+
+    <TextView
+        android:id="@+id/fragment_timegoals_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/onboarding_timegoals"
+        android:textSize="25dp"
+        android:textColor="@color/background_contrast"
+        android:fontFamily="@font/league_spartan"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <ImageView
+        android:id="@+id/fragment_timegoals_cat"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:src="@drawable/cat4"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/fragment_timegoals_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:foregroundGravity="center"/>
+
+    <TextView
+        android:id="@+id/fragment_timegoals_cattextview"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:padding="40dp"
+        android:layout_height="wrap_content"
+        android:text="i read the whole day... meow\n*smirk*"
+        android:textColor="@color/background_contrast"
+        android:fontFamily="@font/league_spartan"
+        app:layout_constraintTop_toBottomOf="@id/fragment_timegoals_cat"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/fragment_timegoals_1"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_margin="7dp"
+        app:cornerRadius="15dp"
+        android:elevation="0dp"
+        android:fontFamily="@font/league_spartan"
+        android:textSize="12dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/background_contrast"
+        android:textColor="@color/background_contrast"
+        android:backgroundTint="@color/background_surface"
+        android:text="less than 1 hour"
+        app:layout_constraintEnd_toStartOf="@id/fragment_timegoals_2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/fragment_timegoals_3"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/fragment_timegoals_2"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        app:cornerRadius="15dp"
+        android:elevation="0dp"
+        android:textSize="12dp"
+        app:strokeWidth="1dp"
+        android:fontFamily="@font/league_spartan"
+        app:strokeColor="@color/background_contrast"
+        android:textColor="@color/background_contrast"
+        android:backgroundTint="@color/background_surface"
+        android:layout_margin="7dp"
+        android:text="1 to 2 hours"
+        app:layout_constraintStart_toEndOf="@id/fragment_timegoals_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/fragment_timegoals_4"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/fragment_timegoals_3"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        app:cornerRadius="15dp"
+        android:layout_margin="7dp"
+        android:elevation="0dp"
+        android:textSize="12dp"
+        app:strokeWidth="1dp"
+        android:fontFamily="@font/league_spartan"
+        app:strokeColor="@color/background_contrast"
+        android:textColor="@color/background_contrast"
+        android:backgroundTint="@color/background_surface"
+        android:text="2 to 6 hours"
+        app:layout_constraintEnd_toStartOf="@id/fragment_timegoals_4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/fragment_timegoals_4"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        app:cornerRadius="15dp"
+        android:layout_margin="7dp"
+        android:elevation="0dp"
+        android:textSize="12dp"
+        app:strokeWidth="1dp"
+        android:fontFamily="@font/league_spartan"
+        app:strokeColor="@color/background_contrast"
+        android:textColor="@color/background_contrast"
+        android:backgroundTint="@color/background_surface"
+        android:text="6+ hours"
+        app:layout_constraintStart_toEndOf="@id/fragment_timegoals_3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Booki</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name='booki_logo'><font color='#F0EEE2'>boo</font><font color='#995B00'>K</font><font color='#F0EEE2'>i</font></string>
+    <string name='booki_logo_contrasted'><font color='#1b1912'>boo</font><font color='#995B00'>K</font><font color='#1b1912'>i</font></string>
+
+    <string name='onboarding_age'><font color='#F0EEE2'>Whats </font><font color='#995B00'>your\n</font><font color='#F0EEE2'>age?</font></string>
+    <string name='onboarding_gender'><font color='#F0EEE2'>Whats </font><font color='#995B00'>your\n</font><font color='#F0EEE2'>gender?</font></string>
+    <string name='onboarding_interests'><font color='#F0EEE2'>What are your\n</font><font color='#995B00'>interests?</font></string>
+    <string name='onboarding_pagegoals'><font color='#F0EEE2'>How many pages\ndo you </font><font color='#995B00'>usually read\n</font><font color='#F0EEE2'>daily?</font></string>
+    <string name='onboarding_timegoals'><font color='#F0EEE2'>What are your\ndaily </font><font color='#995B00'>reading </font><font color='#F0EEE2'>goals?</font></string>
+    <string name='onboarding_snippets'><font color='#F0EEE2'>Swipe right on\nthe </font><font color='#995B00'>snippets </font><font color='#F0EEE2'>that\ninterest you</font></string>
+
+</resources>

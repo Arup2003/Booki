@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.Onboarding_AgeGenderFragment">
+    <TextView
+        android:id="@+id/fragment_age_gender_heading_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:text="@string/onboarding_gender"
+        android:fontFamily="@font/league_spartan"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/fragment_age_gender_male_btn"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_margin="15dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/background_contrast"
+        android:elevation="0dp"
+        app:cornerRadius="15dp"
+        android:text="Male"
+        android:fontFamily="@font/league_spartan"
+        android:textColor="@color/background_contrast"
+        android:backgroundTint="@color/background_surface"
+        app:layout_constraintBottom_toTopOf="@id/fragment_age_gender_female_btn"/>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/fragment_age_gender_female_btn"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_margin="15dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/background_contrast"
+        android:elevation="0dp"
+        app:cornerRadius="15dp"
+        android:text="Female"
+        android:fontFamily="@font/league_spartan"
+        android:textColor="@color/background_contrast"
+        android:backgroundTint="@color/background_surface"
+        app:layout_constraintTop_toBottomOf="@id/fragment_age_gender_heading_gender"
+        app:layout_constraintBottom_toTopOf="@id/fragment_age_gender_guideline_for_age"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/fragment_age_gender_others_btn"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_margin="15dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/background_contrast"
+        android:elevation="0dp"
+        app:cornerRadius="15dp"
+        android:text="Others"
+        android:fontFamily="@font/league_spartan"
+        android:textColor="@color/background_contrast"
+        android:backgroundTint="@color/background_surface"
+        app:layout_constraintTop_toBottomOf="@id/fragment_age_gender_female_btn"/>
+
+    <TextView
+        android:id="@+id/fragment_age_gender_heading_age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:text="@string/onboarding_age"
+        android:fontFamily="@font/league_spartan"
+        app:layout_constraintBottom_toTopOf="@id/fragment_age_gender_age_picker"
+        app:layout_constraintTop_toBottomOf="@id/fragment_age_gender_guideline_for_age"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <NumberPicker
+        android:id="@+id/fragment_age_gender_age_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/Booki_logo_font"
+        app:layout_constraintTop_toBottomOf="@id/fragment_age_gender_heading_age"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/fragment_age_gender_guideline_for_age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.55"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,5 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="background_color">#F0EEE2</color>
     <color name="background_surface">#ffffff</color>
+    <color name="background_contrast">#1b1912</color>
     <color name="bottom_nav_and_actionbar_color">#54FFFFFF</color>
+    <color name="booki_orange">#995B00</color>
 </resources>

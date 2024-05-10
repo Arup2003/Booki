@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    tools:context=".activity.LoginActivity">
+
+    <TextView
+        android:id="@+id/activity_login_booki_heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="60dp"
+        android:layout_marginTop="100dp"
+        android:fontFamily="@font/league_spartan"
+        android:text="@string/booki_logo"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/activity_login_booki_subheading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="18dp"
+        android:textColor="@color/background_contrast"
+        android:fontFamily="@font/league_spartan"
+        android:text="Read Rediscover Repeat"
+        app:layout_constraintTop_toBottomOf="@id/activity_login_booki_heading"/>
+
+    <ImageView
+        android:id="@+id/activity_login_cat"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/login_activity_cat"
+        android:layout_margin="45dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/activity_login_slider"
+        app:layout_constraintTop_toBottomOf="@id/activity_login_booki_subheading"/>
+
+    <com.ncorti.slidetoact.SlideToActView
+        android:id="@+id/activity_login_slider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        app:outer_color="@color/background_contrast"
+        app:inner_color="@color/background_color"
+        app:slider_icon="@drawable/google_icon"
+        app:text="Swipe here to sign in"
+        app:text_appearance="@style/Booki_logo_font"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
