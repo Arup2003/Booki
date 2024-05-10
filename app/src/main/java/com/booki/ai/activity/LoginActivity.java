@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                                         user_check.addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                if(true){
+                                                if(snapshot.child("gender").getValue() == null){
                                                     Intent intent = new Intent(LoginActivity.this, OnboardingActivity.class);
                                                     startActivity(intent);
                                                     LoginActivity.this.finish();
