@@ -95,6 +95,10 @@ public class MainActivity extends AppCompatActivity {
                             menu.findItem(R.id.librarymenu).setIcon(R.drawable.library_icon_notselected);
                             menu.findItem(R.id.storemenu).setIcon(R.drawable.store_icon_selected);
                             menu.findItem(R.id.profilemenu).setIcon(R.drawable.profile_icon_notselected);
+
+                            Intent i1 = new Intent(MainActivity.this, BookLibraryActivity.class);
+                            startActivity(i1);
+                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                         }
                     } else if (id == R.id.profilemenu) {
                         if (current_fragment != R.id.profilemenu) {

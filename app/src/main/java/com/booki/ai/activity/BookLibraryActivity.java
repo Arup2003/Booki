@@ -183,6 +183,7 @@ public class BookLibraryActivity extends Activity {
                     Chip chip = new Chip(BookLibraryActivity.this);
                     chip.setText(""+snap.getKey());
                     chip.setTextSize(1,12);
+                    chip.setChipCornerRadius(360);
                     book_library_category_group.addView(chip);
                 }
 
