@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.booki.ai.R;
 import com.booki.ai.fragment.InfiniteSnippetsFragment;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     ImageView menu_icon;
+    TextView verify_snippet;
     BlurView action_bar_blurview, bottom_navigation_blurview;
 
     @Override
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
             menu_icon = findViewById(R.id.main_activity_menu);
             action_bar_blurview = findViewById(R.id.main_activity_actionbar_blurview);
             bottom_navigation_blurview = findViewById(R.id.main_activity_bottomnavigation_blurview);
+            verify_snippet = findViewById(R.id.main_activity_verifysnippet);
 
             //Initialising BlurView
             View decor = getWindow().getDecorView();
@@ -59,6 +62,15 @@ public class MainActivity extends AppCompatActivity {
             bottom_navigation_blurview.setupWith(decorview, new RenderScriptBlur(getApplicationContext()))
                     .setFrameClearDrawable(windowBackground)
                     .setBlurRadius(10);
+
+            verify_snippet.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent heyintent = new Intent(MainActivity.this, SnippetVerificationAdminONLYActivity.class);
+                    startActivity(heyintent);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                }
+            });
 
             //Defining BottomNavigationView
             Menu menu = bottomNavigationView.getMenu();

@@ -4,6 +4,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="foreground_color">#FFFFFFFF</color>
     <color name="background_color">#090908</color>
+    <color name="half_trans_background_color">#55090908</color>
+
     <color name="background_surface">#161B16</color>
     <color name="background_contrast">#F0EEE2</color>
     <color name="secondary_background_color">#373734</color>

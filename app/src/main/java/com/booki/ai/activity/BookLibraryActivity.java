@@ -1,10 +1,15 @@
 package com.booki.ai.activity;
 
 
+import static android.app.PendingIntent.getActivity;
+
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -23,6 +28,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.factor.bouncy.BouncyNestedScrollView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.firebase.Firebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +41,9 @@ import com.ncorti.slidetoact.SlideToActView;
 
 import java.io.File;
 import java.io.IOException;
+
+import eightbitlab.com.blurview.BlurView;
+import eightbitlab.com.blurview.RenderScriptBlur;
 
 public class BookLibraryActivity extends Activity {
 
@@ -55,11 +64,13 @@ public class BookLibraryActivity extends Activity {
     boolean toggleReadMore=false;
     BouncyNestedScrollView book_library_book_display_scrollview;
     SlideToActView book_library_read_slider;
+    BlurView background_img_blurview;
 
 
     DatabaseReference dbReference;
     StorageReference storageReference;
     Query getBookByKey;
+    ConstraintLayout main_constraint_layout;
 
 
     @Override
@@ -82,6 +93,8 @@ public class BookLibraryActivity extends Activity {
         book_library_category_group = findViewById(R.id.book_library_category_group);
         book_library_book_display_scrollview = findViewById(R.id.book_library_book_display_scrollview);
         book_library_read_slider = findViewById((R.id.book_library_read_slider));
+        background_img_blurview = findViewById(R.id.book_library_background_img_blurview);
+        main_constraint_layout = findViewById(R.id.book_library_constraint_main);
 
 
 //        Connecting database
@@ -89,16 +102,15 @@ public class BookLibraryActivity extends Activity {
         storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://booki-16748.appspot.com/bookDisplay/images");
 
 
-//        BlurView bottom_navigation_blurview = view.findViewById(R.id.book_library_blurview);
-//
-//        //Initialising BlurView
-//        View decor = getActivity().getWindow().getDecorView();
-//        ViewGroup decorview = decor.findViewById(R.id.book_library_book_display_scrollview);
-//        Drawable windowBackground = decor.getBackground();
-//
-//        bottom_navigation_blurview.setupWith(decorview, new RenderScriptBlur(requireContext()))
-//                .setFrameClearDrawable(windowBackground)
-//                .setBlurRadius(10);
+
+        //Initialising BlurView
+          View decor = getWindow().getDecorView();
+          ViewGroup decorview = decor.findViewById(R.id.book_library_constraint_main);
+          Drawable windowBackground = decor.getBackground();
+
+          background_img_blurview.setupWith(decorview, new RenderScriptBlur(getApplicationContext()))
+                  .setFrameClearDrawable(windowBackground)
+                  .setBlurRadius(10);
 
 
         // Example of handling chip selection
@@ -187,8 +199,17 @@ public class BookLibraryActivity extends Activity {
                     book_library_category_group.addView(chip);
                 }
 
-                new ImageDownloaderTask(book_library_book_cover_img).execute("cover/"+key+".jpg");
-                new ImageDownloaderTask(book_library_background_img).execute("background/"+key+".jpg");
+                StorageReference background_image_ref = FirebaseStorage.getInstance().getReference("bookDisplay").child("images").child("background").child(key + ".jpg");
+                Glide.with(getApplicationContext())
+                        .load(background_image_ref)
+                        .fitCenter()
+                        .into(book_library_background_img);
+
+                StorageReference cover_image_ref = FirebaseStorage.getInstance().getReference("bookDisplay").child("images").child("cover").child(key + ".jpg");
+                Glide.with(getApplicationContext())
+                        .load(cover_image_ref)
+                        .fitCenter()
+                        .into(book_library_book_cover_img);
             }
 
             @Override
@@ -199,46 +220,3 @@ public class BookLibraryActivity extends Activity {
     }
 }
 
-class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
-    private ImageView imageView;
-
-    public ImageDownloaderTask(ImageView imageView) {
-        this.imageView = imageView;
-    }
-
-    @Override
-    protected Bitmap doInBackground(String... params) {
-        String imageName = params[0];
-        try {
-
-            // Create a storage reference to the image file
-            StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl("gs://booki-16748.appspot.com/bookDisplay/images").child("/" + imageName);
-
-            // Download the image file to a local temporary file
-            File localFile = File.createTempFile("images", "jpg");
-            storageRef.getFile(localFile).addOnSuccessListener(taskSnapshot -> {
-                // Image download successful, decode the image file into a Bitmap
-                Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                // Return the Bitmap
-                onPostExecute(bitmap);
-            }).addOnFailureListener(exception -> {
-                // Handle any errors that may occur during the download
-                exception.printStackTrace();
-                onPostExecute(null);
-            });
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return null;
-    }
-
-    @Override
-    protected void onPostExecute(Bitmap bitmap) {
-        // Set the Bitmap to the ImageView
-        if (bitmap != null) {
-            imageView.setImageBitmap(bitmap);
-        }
-    }
-}

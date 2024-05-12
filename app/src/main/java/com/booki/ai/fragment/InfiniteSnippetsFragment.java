@@ -52,9 +52,16 @@ public class InfiniteSnippetsFragment extends Fragment {
         recycle_main.setLayoutManager(manager);
         recycle_main.setAdapter(adapter);
 
+        recycle_main.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
+
         //Snaphelper snaps the recyclerview in place
-        SnapHelper snapHelper = new PagerSnapHelper();
-        snapHelper.attachToRecyclerView(recycle_main);
+        //SnapHelper snapHelper = new PagerSnapHelper();
+        //snapHelper.attachToRecyclerView(recycle_main);
 
         fetchdata();
 
@@ -63,7 +70,7 @@ public class InfiniteSnippetsFragment extends Fragment {
     private void fetchdata() {
         //Define Database and Query
         DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference("snippets");
-        Query snippets_query = dbReference.limitToFirst(5);
+        Query snippets_query = dbReference.limitToFirst(100);
 
         //Fetching data from database
         snippets_query.addListenerForSingleValueEvent(new ValueEventListener() {
