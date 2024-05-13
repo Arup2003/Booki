@@ -99,7 +99,7 @@ public class Onboarding_SnippetFragment extends Fragment {
 
     private void fetchdata() {
         //Define Database and Query
-        DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference("snippets");
+        DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference("Snippets");
         Query snippets_query = dbReference.limitToFirst(5);
 
         //Fetching data from database
@@ -109,17 +109,17 @@ public class Onboarding_SnippetFragment extends Fragment {
                 for(DataSnapshot snap : snapshot.getChildren())
                 {
                     ArrayList<String> tags_arraylist = new ArrayList<>();
-                    for(DataSnapshot tags:snap.child("ztags").getChildren()){
+                    for(DataSnapshot tags:snap.child("tags").getChildren()){
                         tags_arraylist.add(tags.getKey());
                     }
                     String key = snap.getKey();
-                    String heading = snap.child("heading").getValue(String.class);
                     String body = snap.child("body").getValue(String.class);
-                    if(body == null){
-                        continue;
-                    }
                     StorageReference imagesrc = FirebaseStorage.getInstance().getReference("snippets").child("images").child(key+".png");
-                    InfiniteSnippetsModel snippet = new InfiniteSnippetsModel(key, heading, body, imagesrc, tags_arraylist);
+                    String bookid = snap.child("book_id").getValue(String.class);
+                    String bookname = snap.child("book_name").getValue(String.class);
+                    String author = snap.child("author").getValue(String.class);
+
+                    InfiniteSnippetsModel snippet = new InfiniteSnippetsModel(key, body, imagesrc, tags_arraylist, bookid, author, bookname);
                     arrayList.add(snippet);
                     adapter.notifyItemInserted(arrayList.size() - 1);
                 }

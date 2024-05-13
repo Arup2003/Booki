@@ -51,7 +51,7 @@ public class SnippetVerificationAdminONLYActivity extends AppCompatActivity {
                 OnboardingActivity.Enable_next_btn(true);
                 int top_snippet_position_saved = top_snippet_position;
                 if(direction.toString().equals("Right")) {
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("snippets");
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Snippets");
                     ref.child(top_snap.get(top_snippet_position_saved).getKey()).setValue(top_snap.get(top_snippet_position_saved).getValue());
                     ref.child(top_snap.get(top_snippet_position_saved).getKey()).child("body").setValue(edittext_message_inside_snippet);
                     DatabaseReference ref_to_delete = FirebaseDatabase.getInstance().getReference("Snippets_for_verification").child(top_snap.get(top_snippet_position_saved).getKey());
@@ -115,14 +115,17 @@ public class SnippetVerificationAdminONLYActivity extends AppCompatActivity {
                     }
                     System.out.println("FETCHED DATA");
                     ArrayList<String> tags_arraylist = new ArrayList<>();
-                    for(DataSnapshot tags:snap.child("ztags").getChildren()){
+                    for(DataSnapshot tags:snap.child("tags").getChildren()){
                         tags_arraylist.add(tags.getKey());
                     }
                     String key = snap.getKey();
-                    String heading = snap.child("heading").getValue(String.class);
                     String body = snap.child("body").getValue(String.class);
                     StorageReference imagesrc = FirebaseStorage.getInstance().getReference("snippets").child("images").child(key+".png");
-                    InfiniteSnippetsModel snippet = new InfiniteSnippetsModel(key, heading, body, imagesrc, tags_arraylist);
+                    String bookid = snap.child("book_id").getValue(String.class);
+                    String bookname = snap.child("book_name").getValue(String.class);
+                    String author = snap.child("author").getValue(String.class);
+
+                    InfiniteSnippetsModel snippet = new InfiniteSnippetsModel(key, body, imagesrc, tags_arraylist, bookid, author, bookname);
                     arrayList.add(snippet);
                     top_snap.add(snap);
                     adapter.notifyItemInserted(arrayList.size() - 1);

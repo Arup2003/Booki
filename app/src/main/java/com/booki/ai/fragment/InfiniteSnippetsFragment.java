@@ -59,17 +59,13 @@ public class InfiniteSnippetsFragment extends Fragment {
             }
         });
 
-        //Snaphelper snaps the recyclerview in place
-        //SnapHelper snapHelper = new PagerSnapHelper();
-        //snapHelper.attachToRecyclerView(recycle_main);
-
         fetchdata();
 
     }
 
     private void fetchdata() {
         //Define Database and Query
-        DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference("snippets");
+        DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference("Snippets");
         Query snippets_query = dbReference.limitToFirst(100);
 
         //Fetching data from database
@@ -79,15 +75,19 @@ public class InfiniteSnippetsFragment extends Fragment {
                 for(DataSnapshot snap : snapshot.getChildren())
                 {
                     ArrayList<String> tags_arraylist = new ArrayList<>();
-                    for(DataSnapshot tags:snap.child("ztags").getChildren()){
+                    for(DataSnapshot tags:snap.child("tags").getChildren()){
                         tags_arraylist.add(tags.getKey());
                     }
                     String key = snap.getKey();
-                    String heading = snap.child("heading").getValue(String.class);
                     String body = snap.child("body").getValue(String.class);
                     StorageReference imagesrc = FirebaseStorage.getInstance().getReference("snippets").child("images").child(key+".png");
+                    String bookid = snap.child("book_id").getValue(String.class);
+                    String bookname = snap.child("book_name").getValue(String.class);
+                    String author = snap.child("author").getValue(String.class);
+
+
                     System.out.println(imagesrc);
-                    InfiniteSnippetsModel snippet = new InfiniteSnippetsModel(key, heading, body, imagesrc, tags_arraylist);
+                    InfiniteSnippetsModel snippet = new InfiniteSnippetsModel(key, body, imagesrc, tags_arraylist, bookid, author, bookname);
                     infinite_snippets_arraylist.add(snippet);
                     adapter.notifyItemInserted(infinite_snippets_arraylist.size() - 1);
                 }

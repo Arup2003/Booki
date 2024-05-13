@@ -3,17 +3,13 @@ package com.booki.ai.activity;
 
 import static android.app.PendingIntent.getActivity;
 
-import static androidx.core.content.ContentProviderCompat.requireContext;
-
 import android.app.Activity;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.view.View;
@@ -22,13 +18,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.booki.ai.R;
-import com.booki.ai.model.BookDisplayModel;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.factor.bouncy.BouncyNestedScrollView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.google.firebase.Firebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,13 +32,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.ncorti.slidetoact.SlideToActView;
 
-import java.io.File;
-import java.io.IOException;
-
 import eightbitlab.com.blurview.BlurView;
 import eightbitlab.com.blurview.RenderScriptBlur;
 
-public class BookLibraryActivity extends Activity {
+public class Book_MarketDisplayActivity extends Activity {
 
     ImageView book_library_book_cover_img;
     ImageView book_library_background_img;
@@ -60,15 +50,14 @@ public class BookLibraryActivity extends Activity {
     TextView book_library_additional_stats_downloads_tv;
     TextView book_library_about_author_content;
 
+    String book_key;
+    CardView back_card;
+
     ChipGroup book_library_category_group;
     boolean toggleReadMore=false;
     BouncyNestedScrollView book_library_book_display_scrollview;
     SlideToActView book_library_read_slider;
     BlurView background_img_blurview;
-
-
-    DatabaseReference dbReference;
-    StorageReference storageReference;
     Query getBookByKey;
     ConstraintLayout main_constraint_layout;
 
@@ -76,7 +65,9 @@ public class BookLibraryActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book_library);
+        setContentView(R.layout.activity_book_marketdisplay);
+
+        book_key = getIntent().getStringExtra("book_id");
 
         book_library_book_cover_img = findViewById(R.id.book_library_book_cover_img);
         book_library_background_img = findViewById(R.id.book_library_background_img);
@@ -95,13 +86,14 @@ public class BookLibraryActivity extends Activity {
         book_library_read_slider = findViewById((R.id.book_library_read_slider));
         background_img_blurview = findViewById(R.id.book_library_background_img_blurview);
         main_constraint_layout = findViewById(R.id.book_library_constraint_main);
+        back_card = findViewById(R.id.book_library_back_card);
 
-
-//        Connecting database
-        dbReference = FirebaseDatabase.getInstance().getReference("BookDisplay");
-        storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://booki-16748.appspot.com/bookDisplay/images");
-
-
+        back_card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         //Initialising BlurView
           View decor = getWindow().getDecorView();
@@ -111,7 +103,6 @@ public class BookLibraryActivity extends Activity {
           background_img_blurview.setupWith(decorview, new RenderScriptBlur(getApplicationContext()))
                   .setFrameClearDrawable(windowBackground)
                   .setBlurRadius(10);
-
 
         // Example of handling chip selection
         book_library_category_group.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
@@ -129,28 +120,21 @@ public class BookLibraryActivity extends Activity {
 
                 if(!toggleReadMore)
                 {
-
                     ViewGroup.LayoutParams layoutParams = book_library_book_summary_content.getLayoutParams();
                     layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
                     book_library_book_summary_content.setLayoutParams(layoutParams);
 
                     int total_height = layoutParams.height;
-
-
                     book_library_read_more_btn.setText("read less");
                 }
                 else
                 {
                     ViewGroup.LayoutParams layoutParams = book_library_book_summary_content.getLayoutParams();
-
                     float density = Resources.getSystem().getDisplayMetrics().density;
                     layoutParams.height = (int) (80 * density + 0.5f);
-
                     book_library_book_summary_content.setLayoutParams(layoutParams);
-
                     book_library_read_more_btn.setText("read more");
                 }
-
                 toggleReadMore=!toggleReadMore;
             }
         });
@@ -169,45 +153,45 @@ public class BookLibraryActivity extends Activity {
             }
         });
 
-//        Fetching from database;
-        String bookId="1";
-        getBookByKey = dbReference.child(bookId);
+        fetchdata();
 
-        getBookByKey.addListenerForSingleValueEvent(new ValueEventListener() {
+    }
+
+    private void fetchdata() {
+
+        //Connecting database
+        DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference("Marketplace").child("Books").child(book_key);
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference("Marketplace").child("Books").child(book_key).child("book_cover");
+
+        dbReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                String key = snapshot.getKey();
-
-                BookDisplayModel book = snapshot.getValue(BookDisplayModel.class);
-                book_library_book_name.setText(""+book.getName());
-                book_library_book_author.setText(""+book.getAuthor());
-                book_library_streak_tv.setText(""+book.getStreakRequirement());
-
-                String price = ""+book.getPrice();
-                book_library_price_tv.setText(""+"INR "+price);
-                book_library_book_summary_content.setText(book.getSummary());
-
+                book_library_book_name.setText(snapshot.child("book_name").getValue(String.class));
+                book_library_book_author.setText(snapshot.child("book_author").getValue(String.class));
+                book_library_streak_tv.setText(snapshot.child("streak_requirement").getValue(Integer.class).toString());
+                book_library_price_tv.setText(snapshot.child("book_price").getValue(Float.class).toString());
+                book_library_book_summary_content.setText(snapshot.child("Blurb").getValue(String.class));
+                book_library_additional_stats_pages_tv.setText(snapshot.child("pages").getValue(Integer.class));
+                book_library_additional_stats_downloads_tv.setText(snapshot.child("downloads").getValue(Integer.class));
 //                Adding chips
-                DataSnapshot tagList = snapshot.child("tags");
+                DataSnapshot tagList = snapshot.child("Tags");
                 for(DataSnapshot snap : tagList.getChildren())
                 {
-                    Chip chip = new Chip(BookLibraryActivity.this);
-                    chip.setText(""+snap.getKey());
+                    Chip chip = new Chip(Book_MarketDisplayActivity.this);
+                    chip.setText(snap.getKey());
                     chip.setTextSize(1,12);
                     chip.setChipCornerRadius(360);
                     book_library_category_group.addView(chip);
                 }
 
-                StorageReference background_image_ref = FirebaseStorage.getInstance().getReference("bookDisplay").child("images").child("background").child(key + ".jpg");
                 Glide.with(getApplicationContext())
-                        .load(background_image_ref)
+                        .load(storageReference)
                         .fitCenter()
                         .into(book_library_background_img);
 
-                StorageReference cover_image_ref = FirebaseStorage.getInstance().getReference("bookDisplay").child("images").child("cover").child(key + ".jpg");
                 Glide.with(getApplicationContext())
-                        .load(cover_image_ref)
+                        .load(storageReference)
                         .fitCenter()
                         .into(book_library_book_cover_img);
             }

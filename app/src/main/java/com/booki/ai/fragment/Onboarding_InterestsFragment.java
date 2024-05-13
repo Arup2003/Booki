@@ -20,6 +20,7 @@ import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class Onboarding_InterestsFragment extends Fragment {
     ChipGroup chipGroup;
@@ -47,14 +48,14 @@ public class Onboarding_InterestsFragment extends Fragment {
                     chipGroup.addView(buttonView, index);
                     if (chip.isChecked()) {
                         chips_selected_num += 1;
-                        chips_selected.add(chip.getText().toString());
+                        chips_selected.add(chip.getText().toString().toLowerCase());
                         chip.setChipBackgroundColor(ColorStateList.valueOf(getResources().getColor(R.color.background_contrast)));
                         chip.setTextColor(getResources().getColor(R.color.background_color));
                         chip.setCheckedIconTint(ColorStateList.valueOf(getResources().getColor(R.color.background_color)));
                     }
                     else{
                         chips_selected_num -= 1;
-                        chips_selected.remove(chip.getText().toString());
+                        chips_selected.remove(chip.getText().toString().toLowerCase());
                         chip.setChipBackgroundColor(ColorStateList.valueOf(getResources().getColor(R.color.background_surface)));
                         chip.setTextColor(getResources().getColor(R.color.background_contrast));
                         chip.setCheckedIconTint(ColorStateList.valueOf(getResources().getColor(R.color.background_color)));

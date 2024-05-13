@@ -20,6 +20,8 @@ import com.booki.ai.fragment.InfiniteSnippetsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 
 import eightbitlab.com.blurview.BlurView;
 import eightbitlab.com.blurview.RenderScriptBlur;
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //!!ADD CHECK IF COOKIES ARE STORED OR NOT BEFORE LETTING USER CONTINUE
         if(FirebaseAuth.getInstance().getUid() == null){
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
@@ -51,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
             action_bar_blurview = findViewById(R.id.main_activity_actionbar_blurview);
             bottom_navigation_blurview = findViewById(R.id.main_activity_bottomnavigation_blurview);
             verify_snippet = findViewById(R.id.main_activity_verifysnippet);
+
+            FirebaseDatabase.getInstance().getReference("Userdata").child(FirebaseAuth.getInstance().getUid()).child("last_login").setValue(ServerValue.TIMESTAMP);
 
             //Initialising BlurView
             View decor = getWindow().getDecorView();
@@ -107,10 +112,6 @@ public class MainActivity extends AppCompatActivity {
                             menu.findItem(R.id.librarymenu).setIcon(R.drawable.library_icon_notselected);
                             menu.findItem(R.id.storemenu).setIcon(R.drawable.store_icon_selected);
                             menu.findItem(R.id.profilemenu).setIcon(R.drawable.profile_icon_notselected);
-
-                            Intent i1 = new Intent(MainActivity.this, BookLibraryActivity.class);
-                            startActivity(i1);
-                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                         }
                     } else if (id == R.id.profilemenu) {
                         if (current_fragment != R.id.profilemenu) {
