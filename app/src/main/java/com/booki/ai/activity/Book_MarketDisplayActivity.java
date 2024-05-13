@@ -172,8 +172,9 @@ public class Book_MarketDisplayActivity extends Activity {
                 book_library_streak_tv.setText(snapshot.child("streak_requirement").getValue(Integer.class).toString());
                 book_library_price_tv.setText(snapshot.child("book_price").getValue(Float.class).toString());
                 book_library_book_summary_content.setText(snapshot.child("Blurb").getValue(String.class));
-                book_library_additional_stats_pages_tv.setText(snapshot.child("pages").getValue(Integer.class));
-                book_library_additional_stats_downloads_tv.setText(snapshot.child("downloads").getValue(Integer.class));
+                book_library_additional_stats_pages_tv.setText(snapshot.child("pages").getValue(Integer.class).toString());
+                book_library_additional_stats_downloads_tv.setText(snapshot.child("downloads").getValue(Integer.class).toString());
+
 //                Adding chips
                 DataSnapshot tagList = snapshot.child("Tags");
                 for(DataSnapshot snap : tagList.getChildren())
