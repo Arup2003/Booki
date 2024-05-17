@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
             MainActivity.this.finish();
         }
         else {
-
             //Initialising all the views
             bottomNavigationView = findViewById(R.id.main_activity_bottomnavigation);
             menu_icon = findViewById(R.id.main_activity_menu);
