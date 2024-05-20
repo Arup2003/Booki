@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_book_read"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    tools:context=".activity.BookReadActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/book_read_top_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="1dp"
+        android:paddingHorizontal="10dp"
+        android:background="@color/background_surface"
+
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingTop="50dp"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:gravity="center"
+            android:text="The Secret Wishlist"
+            android:textSize="26dp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/book_read_main_tv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="Test Data"
+        android:textSize="12dp"
+        android:paddingTop="50dp"
+        android:paddingHorizontal="10dp"
+        android:textColor="@color/background_contrast"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/book_read_page_no"
+        />
+
+    <TextView
+        android:id="@+id/book_read_page_no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="page 1 of 227"
+        android:textSize="12dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="10dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/background_contrast"
+        app:layout_constraintTop_toBottomOf="@id/book_read_main_tv"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/book_read_pill_panel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="500dp"
+        android:elevation="1dp"
+
+        android:background="@color/background_surface"
+
+        android:layout_marginBottom="70dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="10dp"
+        >
+
+        <ImageView
+            android:id="@+id/book_read_chapter_menu"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:src="@drawable/chapter_menu_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/book_read_edit_text_icon"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+            android:id="@+id/book_read_edit_text_icon"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginHorizontal="10dp"
+            android:src="@drawable/edit_text_icon"
+            app:layout_constraintStart_toEndOf="@id/book_read_chapter_menu"
+            app:layout_constraintTop_toTopOf="@id/book_read_chapter_menu"
+            app:layout_constraintEnd_toStartOf="@id/book_read_search_icon"/>
+
+        <ImageView
+            android:id="@+id/book_read_search_icon"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginHorizontal="10dp"
+            android:src="@drawable/search_icon"
+            app:layout_constraintStart_toEndOf="@id/book_read_edit_text_icon"
+            app:layout_constraintTop_toTopOf="@id/book_read_chapter_menu"
+            app:layout_constraintEnd_toStartOf="@id/book_read_page_icon"/>
+
+        <ImageView
+            android:id="@+id/book_read_page_icon"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginHorizontal="10dp"
+            android:src="@drawable/page_icon"
+            app:layout_constraintStart_toEndOf="@id/book_read_search_icon"
+            app:layout_constraintTop_toTopOf="@id/book_read_chapter_menu"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

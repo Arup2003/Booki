@@ -30,7 +30,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
+
 
 dependencies {
 
@@ -42,6 +46,9 @@ dependencies {
     implementation("com.google.firebase:firebase-storage:21.0.0")
     implementation("com.firebaseui:firebase-ui-storage:7.2.0")
     implementation("com.github.bumptech.glide:glide:4.14.2")
+    implementation("androidx.activity:activity:1.8.0")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.14.2")
     implementation("com.google.android.play:integrity:1.3.0")
 
@@ -61,5 +68,9 @@ dependencies {
 
     implementation("com.github.valkriaine:Bouncy:2.3")
     implementation("com.ncorti:slidetoact:0.11.0")
+
+    implementation("com.github.mertakdut:EpubParser:1.0.95")
+    implementation("com.github.HamedTaherpour:ht-epub-reader-android:0.0.5")
+    implementation("org.jsoup:jsoup:1.14.3")
 
 }

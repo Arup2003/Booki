@@ -66,7 +66,8 @@ public class InfiniteSnippetsFragment extends Fragment {
     private void fetchdata() {
         //Define Database and Query
         DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference("Snippets");
-        Query snippets_query = dbReference.limitToFirst(100);
+        Query snippets_query = dbReference.orderByPriority().limitToFirst(5);
+
 
         //Fetching data from database
         snippets_query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -74,6 +75,8 @@ public class InfiniteSnippetsFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot snap : snapshot.getChildren())
                 {
+                    dbReference.child(snap.getKey()).setPriority(Math.random());
+
                     ArrayList<String> tags_arraylist = new ArrayList<>();
                     for(DataSnapshot tags:snap.child("tags").getChildren()){
                         tags_arraylist.add(tags.getKey());

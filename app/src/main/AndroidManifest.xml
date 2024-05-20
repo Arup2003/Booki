@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,6 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Booki"
         tools:targetApi="31">
+        <activity
+            android:name=".activity.BookReadPageViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.BookReadActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.SnippetVerificationAdminONLYActivity"
             android:exported="false" />
@@ -33,7 +42,7 @@
         </activity>
         <activity
             android:name=".activity.Book_MarketDisplayActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
     </application>
 
 </manifest>

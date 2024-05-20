@@ -1,0 +1,5 @@
+<!-- res/drawable/custom_tick.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
+    <size android:width="4dp" android:height="4dp" />
+    <solid android:color="@color/background_contrast" /> <!-- Tick color -->
+</shape>
