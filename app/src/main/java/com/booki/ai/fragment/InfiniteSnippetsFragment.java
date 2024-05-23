@@ -86,7 +86,7 @@ public class InfiniteSnippetsFragment extends Fragment {
         is_fetching_data = true;
         //Define Database and Query
         DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference("Snippets");
-        Query snippets_query = dbReference.orderByPriority().limitToFirst(5);
+        Query snippets_query = dbReference.orderByChild("priority").limitToFirst(10);
 
         //Fetching data from database
         snippets_query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -94,7 +94,7 @@ public class InfiniteSnippetsFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot snap : snapshot.getChildren())
                 {
-                    FirebaseDatabase.getInstance().getReference("Snippets").child(snap.getKey()).setPriority(Math.random());
+                    FirebaseDatabase.getInstance().getReference("Snippets").child(snap.getKey()).child("priority").setValue(Math.random());
                     if(!feed_already_loaded.contains(snap.getKey())){
                         ArrayList<String> tags_arraylist = new ArrayList<>();
                         for(DataSnapshot tags:snap.child("tags").getChildren()){
@@ -102,11 +102,10 @@ public class InfiniteSnippetsFragment extends Fragment {
                         }
                         String key = snap.getKey();
                         String body = snap.child("body").getValue(String.class);
-                        StorageReference imagesrc = FirebaseStorage.getInstance().getReference("snippets").child("images").child(key+".png");
                         String bookid = snap.child("book_id").getValue(String.class);
                         String bookname = snap.child("book_name").getValue(String.class);
                         String author = snap.child("author").getValue(String.class);
-
+                        StorageReference imagesrc = FirebaseStorage.getInstance().getReference("Marketplace").child("Books").child(bookid).child("book_cover");
 
                         System.out.println(imagesrc);
                         InfiniteSnippetsModel snippet = new InfiniteSnippetsModel(key, body, imagesrc, tags_arraylist, bookid, author, bookname);
@@ -115,6 +114,7 @@ public class InfiniteSnippetsFragment extends Fragment {
                         feed_already_loaded.add(snap.getKey());
                     }
                 }
+
                 is_fetching_data = false;
             }
             @Override

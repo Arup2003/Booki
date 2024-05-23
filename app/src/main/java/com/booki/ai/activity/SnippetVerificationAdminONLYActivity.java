@@ -53,8 +53,10 @@ public class SnippetVerificationAdminONLYActivity extends AppCompatActivity {
 
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Snippets");
                 ref.child(arraylist_of_snap.get(0).getKey()).setValue(arraylist_of_snap.get(0).getValue());
+                ref.child(arraylist_of_snap.get(0).getKey()).child("priority").setValue(Math.random());
 
                 ref.child(arraylist_of_snap.get(0).getKey()).child("body").setValue(snippet_text.getText().toString());
+
 
                 DatabaseReference ref_to_delete = FirebaseDatabase.getInstance().getReference("Snippets_for_verification").child(arraylist_of_snap.get(0).getKey());
                 ref_to_delete.removeValue();

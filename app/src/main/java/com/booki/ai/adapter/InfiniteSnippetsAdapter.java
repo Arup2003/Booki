@@ -54,24 +54,23 @@ public class InfiniteSnippetsAdapter extends RecyclerView.Adapter<InfiniteSnippe
             }
         });
 
-        /*
         Glide.with(context)
                 .load(arrayList.get(holder.getAdapterPosition()).getImgSrc())
                 .fitCenter()
                 .into(holder.imageView);
-         */
 
-        ///////// REMOVE THIS IN THE FUTURE AND UNCOMMENT THE ABOVE COMMENT
-        int random_image_num = ThreadLocalRandom.current().nextInt(0, 3);
-        ArrayList<Integer> random_image = new ArrayList<Integer>();
-        random_image.add(R.drawable.image1);
-        random_image.add(R.drawable.image2);
-        random_image.add(R.drawable.image3);
 
-        Glide.with(context)
-                .load(random_image.get(random_image_num))
-                .fitCenter()
-                .into(holder.imageView);
+//        ///////// REMOVE THIS IN THE FUTURE AND UNCOMMENT THE ABOVE COMMENT
+//        int random_image_num = ThreadLocalRandom.current().nextInt(0, 3);
+//        ArrayList<Integer> random_image = new ArrayList<Integer>();
+//        random_image.add(R.drawable.image1);
+//        random_image.add(R.drawable.image2);
+//        random_image.add(R.drawable.image3);
+//
+//        Glide.with(context)
+//                .load(random_image.get(random_image_num))
+//                .fitCenter()
+//                .into(holder.imageView);
     }
 
     @Override
