@@ -14,10 +14,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.appgozar.fadeoutparticle.FadeOutParticleFrameLayout;
 import com.booki.ai.adapter.InfiniteSnippetsAdapter;
 import com.booki.ai.model.InfiniteSnippetsModel;
 import com.booki.ai.R;
+import com.factor.bouncy.BouncyRecyclerView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,10 +34,12 @@ import java.util.Random;
 
 public class InfiniteSnippetsFragment extends Fragment {
     boolean is_fetching_data = false;
-    RecyclerView recycle_main;
+    boolean newItemAdded = false;
+    BouncyRecyclerView recycle_main;
     InfiniteSnippetsAdapter adapter;
     ArrayList<InfiniteSnippetsModel> infinite_snippets_arraylist = new ArrayList<>();
     ArrayList<String> feed_already_loaded = new ArrayList<>();
+    LottieAnimationView loader;
 
 
     @Override
@@ -56,6 +60,9 @@ public class InfiniteSnippetsFragment extends Fragment {
         recycle_main.setLayoutManager(manager);
         recycle_main.setAdapter(adapter);
 
+        loader = view.findViewById(R.id.infinite_snippets_loader);
+        loader.setVisibility(View.GONE);
+
         recycle_main.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -71,7 +78,6 @@ public class InfiniteSnippetsFragment extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
                 manager.getItemCount();
                 if(manager.findLastVisibleItemPosition() == manager.getItemCount() - 1){
-                    System.out.println("last item reached");
                     if(!is_fetching_data){
                         fetchdata();
                     }
@@ -82,8 +88,12 @@ public class InfiniteSnippetsFragment extends Fragment {
     }
 
     private void fetchdata() {
+
+        newItemAdded=false;
         System.out.println("FETCHING NEW SNIPPETS!!");
         is_fetching_data = true;
+        loader.setVisibility(View.VISIBLE);
+
         //Define Database and Query
         DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference("Snippets");
         Query snippets_query = dbReference.orderByChild("priority").limitToFirst(10);
@@ -94,7 +104,7 @@ public class InfiniteSnippetsFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot snap : snapshot.getChildren())
                 {
-                    FirebaseDatabase.getInstance().getReference("Snippets").child(snap.getKey()).child("priority").setValue(Math.random());
+                    FirebaseDatabase.getInstance().getReference("Snippets").child(snap.getKey()).child("priority").setValue((int)(Math.random()*10000)+1);
                     if(!feed_already_loaded.contains(snap.getKey())){
                         ArrayList<String> tags_arraylist = new ArrayList<>();
                         for(DataSnapshot tags:snap.child("tags").getChildren()){
@@ -112,10 +122,20 @@ public class InfiniteSnippetsFragment extends Fragment {
                         infinite_snippets_arraylist.add(snippet);
                         adapter.notifyItemInserted(infinite_snippets_arraylist.size() - 1);
                         feed_already_loaded.add(snap.getKey());
+                        newItemAdded=true;
                     }
                 }
 
                 is_fetching_data = false;
+
+                if(newItemAdded)
+                {
+                    loader.setVisibility(View.GONE);
+                }
+                else
+                {
+                    fetchdata();
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
