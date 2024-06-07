@@ -20,6 +20,7 @@
         android:text="Font style"
         android:textSize="16dp"
         android:textColor="@color/background_contrast"
+        android:fontFamily="@font/league_spartan"
 
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/book_read_font_style_rv"
@@ -53,6 +54,7 @@
         android:text="Font size"
         android:textSize="16dp"
         android:textColor="@color/background_contrast"
+        android:fontFamily="@font/league_spartan"
 
         app:layout_constraintTop_toBottomOf="@id/book_read_separator1"
         app:layout_constraintBottom_toTopOf="@id/book_read_font_size_iv1"
@@ -117,6 +119,7 @@
         android:text="Page color"
         android:textSize="16dp"
         android:textColor="@color/background_contrast"
+        android:fontFamily="@font/league_spartan"
 
         app:layout_constraintTop_toBottomOf="@id/book_read_separator2"
         app:layout_constraintBottom_toTopOf="@id/book_read_font_color_rv"

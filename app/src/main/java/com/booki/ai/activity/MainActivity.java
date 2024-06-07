@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
 
-            Intent ii = new Intent(MainActivity.this, BookReadActivity.class);
-            startActivity(ii);
+//            Intent ii = new Intent(MainActivity.this, BookReadActivity.class);
+//            startActivity(ii);
 
             //Initialising all the views
             bottomNavigationView = findViewById(R.id.main_activity_bottomnavigation);

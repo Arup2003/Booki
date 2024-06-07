@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,9 +14,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
+import com.booki.ai.IndividualPageActivity;
 import com.booki.ai.R;
 import com.booki.ai.activity.BookReadActivity;
+import com.booki.ai.fragment.CustomiseTextBottomSheet;
 import com.booki.ai.model.PageColorModel;
 
 import java.util.ArrayList;
@@ -24,10 +28,10 @@ public class PageColorAdapter extends RecyclerView.Adapter<PageColorAdapter.View
 
     Context context;
     ArrayList<PageColorModel> arrayList;
-    TextView book_read_main_tv;
+    WebView book_read_main_tv;
     TextView book_read_page_no;
     BookReadActivity bookReadActivity;
-    public PageColorAdapter(Context context, ArrayList<PageColorModel> arrayList, TextView book_read_main_tv, TextView book_read_page_no, BookReadActivity bookReadActivity)
+    public PageColorAdapter(Context context, ArrayList<PageColorModel> arrayList, WebView book_read_main_tv, TextView book_read_page_no, BookReadActivity bookReadActivity)
     {
         this.context=context;
         this.arrayList=arrayList;
@@ -65,10 +69,25 @@ public class PageColorAdapter extends RecyclerView.Adapter<PageColorAdapter.View
                 notifyDataSetChanged();
 
                 book_read_main_tv.setBackgroundColor(arrayList.get(position).getPageColor());
-                book_read_main_tv.setTextColor(arrayList.get(position).getTextColor());
+
+                CustomiseTextBottomSheet.textColor = arrayList.get(position).getTextColor();
+
+                BookReadActivity.htmlStyle = "<font color='"+CustomiseTextBottomSheet.textColor+"' size="+CustomiseTextBottomSheet.textSize+">";
+
+                System.out.println(BookReadActivity.webData);
+                BookReadActivity.loadData();
+
+//                book_read_main_tv.loadDataWithBaseURL(null, bookReadActivity.webData,"text/html", "UTF-8",null);
+
+
+//                book_read_main_tv.setTextColor(arrayList.get(position).getTextColor());
+
+
+//                IndividualPageActivity.changeColor(arrayList.get(position).getPageColor(), arrayList.get(position).getTextColor());
+
 
                 book_read_page_no.setBackgroundColor(arrayList.get(position).getPageColor());
-                book_read_page_no.setTextColor(arrayList.get(position).getTextColor());
+                book_read_page_no.setTextColor(Color.parseColor(arrayList.get(position).getTextColor()));
             }
         });
     }

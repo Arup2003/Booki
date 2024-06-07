@@ -3,9 +3,9 @@ package com.booki.ai.model;
 public class PageColorModel {
 
     int pageColor;
-    int textColor;
+    String textColor;
 
-    public PageColorModel(int pageColor, int textColor) {
+    public PageColorModel(int pageColor, String textColor) {
         this.pageColor = pageColor;
         this.textColor = textColor;
     }
@@ -18,11 +18,11 @@ public class PageColorModel {
         this.pageColor = pageColor;
     }
 
-    public int getTextColor() {
+    public String getTextColor() {
         return textColor;
     }
 
-    public void setTextColor(int textColor) {
+    public void setTextColor(String textColor) {
         this.textColor = textColor;
     }
 }

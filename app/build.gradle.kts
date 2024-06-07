@@ -33,6 +33,10 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+    configurations.all {
+        exclude(group = "xmlpull", module = "xmlpull")
+    }
 }
 
 
@@ -69,8 +73,11 @@ dependencies {
     implementation("com.github.valkriaine:Bouncy:2.3")
     implementation("com.ncorti:slidetoact:0.11.0")
 
-    implementation("com.github.mertakdut:EpubParser:1.0.95")
-    implementation("com.github.HamedTaherpour:ht-epub-reader-android:0.0.5")
+//    implementation("com.github.mertakdut:EpubParser:1.0.95")
+//    implementation("com.github.HamedTaherpour:ht-epub-reader-android:0.0.5")
     implementation("org.jsoup:jsoup:1.14.3")
+
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+    implementation("com.github.psiegman:epublib:69ac6b0")
 
 }

@@ -3,9 +3,18 @@ package com.booki.ai.activity;
 
 import static android.app.PendingIntent.getActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,10 +25,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.booki.ai.R;
 import com.bumptech.glide.Glide;
 import com.factor.bouncy.BouncyNestedScrollView;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.database.DataSnapshot;
@@ -31,6 +43,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.ncorti.slidetoact.SlideToActView;
+
+import java.io.File;
 
 import eightbitlab.com.blurview.BlurView;
 import eightbitlab.com.blurview.RenderScriptBlur;
@@ -60,12 +74,19 @@ public class Book_MarketDisplayActivity extends Activity {
     BlurView background_img_blurview;
     Query getBookByKey;
     ConstraintLayout main_constraint_layout;
+    StorageReference epubRef;
+    private final BroadcastReceiver downloadReceiver = new DownloadReceiver();
 
+    File book_epub_dir;
+    File book_epub_file;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_marketdisplay);
+
+        IntentFilter filter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+        registerReceiver(downloadReceiver, filter);
 
         book_key = getIntent().getStringExtra("book_id");
 
@@ -153,8 +174,73 @@ public class Book_MarketDisplayActivity extends Activity {
             }
         });
 
+        book_library_read_slider.setOnSlideCompleteListener(new SlideToActView.OnSlideCompleteListener() {
+            @Override
+            public void onSlideComplete(@NonNull SlideToActView slideToActView) {
+                book_epub_dir = new File(getApplicationContext().getExternalFilesDir(null),book_key);
+
+                book_epub_file = new File(book_epub_dir,"book_epub.epub");
+                if(book_epub_file.exists())
+                {
+                    Toast.makeText(Book_MarketDisplayActivity.this, "book exists", Toast.LENGTH_SHORT).show();
+                    Intent ii = new Intent(Book_MarketDisplayActivity.this,BookReadActivity.class);
+                    ii.putExtra("epubFilePath",book_epub_file.getPath());
+                    startActivity(ii);
+                }
+                else{
+                    Toast.makeText(Book_MarketDisplayActivity.this, "doesn't exist", Toast.LENGTH_SHORT).show();
+                    downloadEpub(book_epub_dir);
+
+                }
+            }
+        });
+
         fetchdata();
 
+    }
+
+    private void downloadEpub(File book_epub_dir){
+        epubRef = FirebaseStorage.getInstance().getReference("Marketplace").child("Books").child(book_key).child("book_epub");
+
+//        TO DOWNLOAD EPUB
+        epubRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+
+                String fileName = "book_epub.epub";
+
+                    DownloadManager downloadManager = (DownloadManager) getApplicationContext().getSystemService(Context.DOWNLOAD_SERVICE);
+
+                    DownloadManager.Request request = new DownloadManager.Request(uri);
+
+                    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+                    if (!book_epub_dir.exists()) {
+                        book_epub_dir.mkdirs();
+                    }
+
+                    File file = new File(book_epub_dir, fileName);
+
+                    Toast.makeText(getApplicationContext(), "downloading book", Toast.LENGTH_SHORT).show();
+                    request.setDestinationUri(Uri.fromFile(file));
+
+                    // Enqueue the download request
+                    long downloadId = downloadManager.enqueue(request);
+
+                    // Save the download ID in SharedPreferences or a similar persistent storage
+                    SharedPreferences preferences = getApplicationContext().getSharedPreferences("downloads", BookReadActivity.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putLong("download_id", downloadId);
+                    editor.apply();
+
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void fetchdata() {
@@ -202,6 +288,46 @@ public class Book_MarketDisplayActivity extends Activity {
 
             }
         });
+    }
+
+    public class DownloadReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            long downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+            if (downloadId != -1) {
+                // Retrieve the stored download ID
+                SharedPreferences preferences = context.getSharedPreferences("downloads", Context.MODE_PRIVATE);
+                long storedDownloadId = preferences.getLong("download_id", -1);
+
+                if (downloadId == storedDownloadId) {
+                    DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+                    DownloadManager.Query query = new DownloadManager.Query();
+                    query.setFilterById(downloadId);
+                    Cursor cursor = downloadManager.query(query);
+                    if (cursor.moveToFirst()) {
+                        int statusIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
+                        int status = cursor.getInt(statusIndex);
+                        if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                            // Download completed successfully
+                            Toast.makeText(context, "Book downloaded successfully", Toast.LENGTH_SHORT).show();
+                            Intent ii = new Intent(getApplicationContext(),BookReadActivity.class);
+                            ii.putExtra("epubFilePath",book_epub_file.getPath());
+                            startActivity(ii);
+                        } else {
+                            // Download failed, handle the error
+                        }
+                    }
+                    cursor.close();
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Unregister the BroadcastReceiver
+        unregisterReceiver(downloadReceiver);
     }
 }
 

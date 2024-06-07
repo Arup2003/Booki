@@ -8,6 +8,51 @@
     android:background="@color/background_color"
     tools:context=".activity.BookReadActivity">
 
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:elevation="2dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+        <LinearLayout
+            android:id="@+id/book_read_side_sheet"
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            style="@style/Widget.Material3.SideSheet"
+            app:layout_behavior="com.google.android.material.sidesheet.SideSheetBehavior"
+            android:weightSum="10">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Contents"
+                android:textSize="24dp"
+                android:gravity="center"
+                android:paddingVertical="16dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/league_spartan"/>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="9">
+
+                <LinearLayout
+                    android:id="@+id/book_read_chapter_index"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:text="Sample"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="8dp"/>
+            </ScrollView>
+
+        </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/book_read_top_panel"
         android:layout_width="match_parent"
@@ -27,6 +72,7 @@
             android:gravity="center"
             android:text="The Secret Wishlist"
             android:textSize="26dp"
+            android:fontFamily="@font/league_spartan"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -34,38 +80,39 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
+
+    <com.booki.ai.model.CustomWebView
         android:id="@+id/book_read_main_tv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:text="Test Data"
-        android:textSize="12dp"
-        android:paddingTop="50dp"
-        android:paddingHorizontal="10dp"
+        android:paddingTop="40dp"
         android:textColor="@color/background_contrast"
+        android:background="@color/background_color"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/book_read_page_no"
-        />
+        app:layout_constraintBottom_toTopOf="@id/book_read_page_no"/>
+
 
     <TextView
         android:id="@+id/book_read_page_no"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="page 1 of 227"
+        android:text="page 0 of 0"
         android:textSize="12dp"
         android:paddingHorizontal="10dp"
         android:paddingVertical="10dp"
         android:gravity="center_vertical"
-        android:textColor="@color/background_contrast"
+        android:background="@color/white"
+        android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@id/book_read_main_tv"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:fontFamily="@font/league_spartan"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/book_read_pill_panel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardCornerRadius="500dp"
-        android:elevation="1dp"
+        android:elevation="3dp"
 
         android:background="@color/background_surface"
 
@@ -102,18 +149,9 @@
             android:src="@drawable/edit_text_icon"
             app:layout_constraintStart_toEndOf="@id/book_read_chapter_menu"
             app:layout_constraintTop_toTopOf="@id/book_read_chapter_menu"
-            app:layout_constraintEnd_toStartOf="@id/book_read_search_icon"/>
-
-        <ImageView
-            android:id="@+id/book_read_search_icon"
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
-
-            android:layout_marginHorizontal="10dp"
-            android:src="@drawable/search_icon"
-            app:layout_constraintStart_toEndOf="@id/book_read_edit_text_icon"
-            app:layout_constraintTop_toTopOf="@id/book_read_chapter_menu"
             app:layout_constraintEnd_toStartOf="@id/book_read_page_icon"/>
+
+
 
         <ImageView
             android:id="@+id/book_read_page_icon"
@@ -122,7 +160,7 @@
 
             android:layout_marginHorizontal="10dp"
             android:src="@drawable/page_icon"
-            app:layout_constraintStart_toEndOf="@id/book_read_search_icon"
+            app:layout_constraintStart_toEndOf="@id/book_read_edit_text_icon"
             app:layout_constraintTop_toTopOf="@id/book_read_chapter_menu"
             app:layout_constraintEnd_toEndOf="parent"/>
 

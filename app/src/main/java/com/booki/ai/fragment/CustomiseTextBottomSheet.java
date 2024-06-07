@@ -4,17 +4,20 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.webkit.WebView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.booki.ai.activity.BookReadActivity;
 import com.booki.ai.adapter.FontStyleAdapter;
 import com.booki.ai.adapter.InfiniteSnippetsAdapter;
 import com.booki.ai.adapter.PageColorAdapter;
+import com.booki.ai.adapter.PageReadAdapter;
 import com.booki.ai.model.FontStyleModel;
 import com.booki.ai.model.PageColorModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -32,13 +35,15 @@ public class CustomiseTextBottomSheet extends BottomSheetDialog {
     ArrayList<PageColorModel> pageColors;
     FontStyleAdapter fontStyleAdapter;
     PageColorAdapter pageColorAdapter;
-    TextView book_read_main_tv;
+    WebView book_read_main_tv;
     TextView book_read_page_no;
 
     SeekBar book_read_font_size_sb;
 
+    public static String textColor = "#000000";
+    public static int textSize = 2;
 
-    public CustomiseTextBottomSheet(BookReadActivity bookReadActivity, TextView book_read_main_tv, TextView book_read_page_no) {
+    public CustomiseTextBottomSheet(BookReadActivity bookReadActivity, WebView book_read_main_tv, TextView book_read_page_no) {
         super(bookReadActivity);
         this.bookReadActivity = bookReadActivity;
         this.book_read_main_tv=book_read_main_tv;
@@ -51,10 +56,10 @@ public class CustomiseTextBottomSheet extends BottomSheetDialog {
         book_read_font_size_sb = findViewById(R.id.book_read_font_size_sb);
 
         fontStyles = new ArrayList<>();
-        fontStyles.add(new FontStyleModel("Font 1"));
-        fontStyles.add(new FontStyleModel("Font 2"));
-        fontStyles.add(new FontStyleModel("Font 3"));
-        fontStyles.add(new FontStyleModel("Font 4"));
+        fontStyles.add(new FontStyleModel("serif"));
+        fontStyles.add(new FontStyleModel("sans-serif"));
+        fontStyles.add(new FontStyleModel("monospace"));
+        fontStyles.add(new FontStyleModel("cursive"));
 
         fontStyleAdapter = new FontStyleAdapter(getContext(), fontStyles);
         LinearLayoutManager styleManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
@@ -63,13 +68,18 @@ public class CustomiseTextBottomSheet extends BottomSheetDialog {
 
         pageColors = new ArrayList<>();
 
-        pageColors.add(new PageColorModel(ContextCompat.getColor(getContext(),R.color.background_color),ContextCompat.getColor(getContext(),R.color.background_contrast)));
-        pageColors.add(new PageColorModel(Color.parseColor("#fcf8f3"),Color.parseColor("#053220")));
-        pageColors.add(new PageColorModel(Color.parseColor("#2d4059"),Color.parseColor("#fcf8f3")));
-        pageColors.add(new PageColorModel(Color.parseColor("#aedadd"),Color.parseColor("#053220")));
-        pageColors.add(new PageColorModel(Color.parseColor("#053220"),Color.parseColor("#f6f6f6")));
-        pageColors.add(new PageColorModel(Color.parseColor("#000000"),Color.parseColor("#ffffff")));
-        pageColors.add(new PageColorModel(Color.parseColor("#adccc7"),Color.parseColor("#053220")));
+
+
+//        int red = Color.red(R.color.background_color);
+//        int green = Color.green(R.color.background_color);
+//        int blue = Color.blue(R.color.background_color);
+        pageColors.add(new PageColorModel(Color.rgb(255,255,255),"#000000"));
+        pageColors.add(new PageColorModel(Color.parseColor("#fcf8f3"),"#053220"));
+        pageColors.add(new PageColorModel(Color.parseColor("#2d4059"),"#fcf8f3"));
+        pageColors.add(new PageColorModel(Color.parseColor("#aedadd"),"#053220"));
+        pageColors.add(new PageColorModel(Color.parseColor("#053220"),"#f6f6f6"));
+        pageColors.add(new PageColorModel(Color.parseColor("#000000"),"#ffffff"));
+        pageColors.add(new PageColorModel(Color.parseColor("#adccc7"),"#053220"));
 
         pageColorAdapter = new PageColorAdapter(getContext(), pageColors, book_read_main_tv, book_read_page_no, bookReadActivity);
         LinearLayoutManager colorManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
@@ -81,8 +91,14 @@ public class CustomiseTextBottomSheet extends BottomSheetDialog {
         book_read_font_size_sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                book_read_main_tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP,12+4*progress);
-                bookReadActivity.seekbarProgress=progress;
+//                book_read_main_tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP,12+4*progress);
+
+                textSize = 2+1*progress;
+                BookReadActivity.htmlStyle = "<font color='"+textColor+"' size='"+textSize+"px'>";
+
+                BookReadActivity.loadData();
+
+                BookReadActivity.seekbarProgress =progress;
             }
 
             @Override
