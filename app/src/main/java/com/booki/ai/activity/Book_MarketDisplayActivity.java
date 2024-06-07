@@ -5,6 +5,7 @@ import static android.app.PendingIntent.getActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -65,7 +66,7 @@ public class Book_MarketDisplayActivity extends Activity {
     TextView book_library_about_author_content;
 
     String book_key;
-    CardView back_card;
+    CardView back_card, ai_card;
 
     ChipGroup book_library_category_group;
     boolean toggleReadMore=false;
@@ -108,6 +109,7 @@ public class Book_MarketDisplayActivity extends Activity {
         background_img_blurview = findViewById(R.id.book_library_background_img_blurview);
         main_constraint_layout = findViewById(R.id.book_library_constraint_main);
         back_card = findViewById(R.id.book_library_back_card);
+        ai_card = findViewById(R.id.booklibrary_ai_card);
 
         back_card.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,6 +136,15 @@ public class Book_MarketDisplayActivity extends Activity {
             }
         });
 
+        ai_card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Book_MarketDisplayActivity.this, AI_ChatbotActivity.class);
+                intent.putExtra("book_id", book_key);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            }
+        });
 //        toggling summary length
         book_library_read_more_btn.setOnClickListener(new View.OnClickListener() {
             @Override

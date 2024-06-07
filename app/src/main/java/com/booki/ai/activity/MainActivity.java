@@ -48,9 +48,6 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
 
-//            Intent ii = new Intent(MainActivity.this, BookReadActivity.class);
-//            startActivity(ii);
-
             //Initialising all the views
             bottomNavigationView = findViewById(R.id.main_activity_bottomnavigation);
             menu_icon = findViewById(R.id.main_activity_menu);
@@ -107,8 +104,6 @@ public class MainActivity extends AppCompatActivity {
                             menu.findItem(R.id.librarymenu).setIcon(R.drawable.library_icon_selected);
                             menu.findItem(R.id.storemenu).setIcon(R.drawable.store_icon_notselected);
                             menu.findItem(R.id.profilemenu).setIcon(R.drawable.profile_icon_notselected);
-
-
                         }
                     } else if (id == R.id.storemenu) {
                         if (current_fragment != R.id.storemenu) {

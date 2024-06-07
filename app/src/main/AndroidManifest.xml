@@ -32,6 +32,10 @@
             android:name=".activity.LoginActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.AI_ChatbotActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false" />
+        <activity
             android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
@@ -42,7 +46,8 @@
         </activity>
         <activity
             android:name=".activity.Book_MarketDisplayActivity"
-            android:exported="false" />
+            android:exported="false">
+        </activity>
     </application>
 
 </manifest>
