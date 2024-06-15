@@ -11,6 +11,7 @@
         android:id="@+id/librarymenu"
         android:icon="@drawable/library_icon_notselected"/>
     <item android:enabled="false"
+        android:title="centreMenu"
         android:id="@+id/centremenu"></item>
     <item android:title="Store"
         android:iconTint="@color/black"
