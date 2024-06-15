@@ -26,6 +26,8 @@ import com.booki.ai.R;
 import com.booki.ai.fragment.CustomiseTextBottomSheet;
 import com.booki.ai.fragment.PageNumberBottomSheet;
 import com.booki.ai.model.CustomWebView;
+
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.sidesheet.SideSheetBehavior;
@@ -40,6 +42,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 
+
 import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.Resource;
 import nl.siegmann.epublib.domain.TOCReference;
@@ -50,7 +53,7 @@ public class BookReadActivity extends Activity implements View.OnTouchListener, 
     static CustomWebView book_read_main_tv, book_read_secondary_tv, book_read_tertiary_tv;
 
     int web_view_displayed_on_screen = 0;
-    int currentScrollY = 0;
+    static int currentScrollY = 0;
     static TextView book_read_page_no;
     ImageView book_read_edit_text_icon;
     LinearLayout book_read_chapter_inidex;
@@ -99,6 +102,13 @@ public class BookReadActivity extends Activity implements View.OnTouchListener, 
         book_read_chapter_inidex = findViewById(R.id.book_read_chapter_index);
         book_read_secondary_tv = findViewById(R.id.book_read_secondary_tv);
         book_read_tertiary_tv = findViewById(R.id.book_read_tertiary_tv);
+//
+//        PageSurfaceView  pageSurfaceView = new PageSurfaceView(this);
+//        String[] asset_res_array=null;
+//        asset_res_array=  new String[]{"cat1.png", "cat2.png", "cat3.png"};
+//        PageCurlAdapter pageCurlAdapter=new PageCurlAdapter(asset_res_array);
+//        pageSurfaceView.setPageCurlAdapter(pageCurlAdapter);
+//        setContentView(pageSurfaceView);
 
 
         sideSheetBehavior = SideSheetBehavior.from(book_read_side_sheet);
@@ -123,6 +133,8 @@ public class BookReadActivity extends Activity implements View.OnTouchListener, 
                 calculateTotalCharacters();
 
                 System.out.println("🫂🫂🫂"+currPage);
+                scrollToNextPage();
+
 //                scrollToPage(currPage);
 
             }
@@ -396,7 +408,7 @@ public class BookReadActivity extends Activity implements View.OnTouchListener, 
 
     }
 
-    private void scrollToNextPage() {
+    private static void scrollToNextPage() {
         book_read_main_tv.evaluateJavascript(
                 "(function() { return document.body.scrollHeight; })();",
                 new ValueCallback<String>() {
@@ -412,9 +424,9 @@ public class BookReadActivity extends Activity implements View.OnTouchListener, 
 //                            int additionalScroll = currentScrollY % lineHeight;
 //                            currentScrollY -= additionalScroll;
 
-                            book_read_main_tv.scrollTo(0, currentScrollY);
-                            book_read_tertiary_tv.scrollTo(0, currentScrollY + webViewHeight);
-                            book_read_secondary_tv.scrollTo(0, currentScrollY - webViewHeight);
+                            book_read_main_tv.scrollTo(0, currentScrollY - webViewHeight);
+                            book_read_tertiary_tv.scrollTo(0, currentScrollY);
+                            book_read_secondary_tv.scrollTo(0, currentScrollY - 2*webViewHeight);
 
 
                         }

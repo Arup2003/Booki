@@ -85,4 +85,5 @@ dependencies {
     implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation("com.github.psiegman:epublib:69ac6b0")
     implementation("com.airbnb.android:lottie:3.4.0")
+
 }
