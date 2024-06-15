@@ -1,2 +1,0 @@
-project(':karackencurllib').projectDir = new File(rootDir, 'app/lib/PlayLikeCurl/karackencurllib/')
-include ':karackencurllib'
