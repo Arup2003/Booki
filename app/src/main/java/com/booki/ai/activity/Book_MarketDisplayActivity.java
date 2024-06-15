@@ -35,17 +35,20 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.ncorti.slidetoact.SlideToActView;
 
 import java.io.File;
+import java.util.Date;
 
 import eightbitlab.com.blurview.BlurView;
 import eightbitlab.com.blurview.RenderScriptBlur;
@@ -76,10 +79,12 @@ public class Book_MarketDisplayActivity extends Activity {
     Query getBookByKey;
     ConstraintLayout main_constraint_layout;
     StorageReference epubRef;
+    DatabaseReference dbRef;
     private final BroadcastReceiver downloadReceiver = new DownloadReceiver();
-
+    String userId;
     File book_epub_dir;
     File book_epub_file;
+    boolean bookPurchased=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +95,7 @@ public class Book_MarketDisplayActivity extends Activity {
         registerReceiver(downloadReceiver, filter);
 
         book_key = getIntent().getStringExtra("book_id");
+        userId = FirebaseAuth.getInstance().getUid();
 
         book_library_book_cover_img = findViewById(R.id.book_library_book_cover_img);
         book_library_background_img = findViewById(R.id.book_library_background_img);
@@ -110,6 +116,30 @@ public class Book_MarketDisplayActivity extends Activity {
         main_constraint_layout = findViewById(R.id.book_library_constraint_main);
         back_card = findViewById(R.id.book_library_back_card);
         ai_card = findViewById(R.id.booklibrary_ai_card);
+
+        dbRef = FirebaseDatabase.getInstance().getReference("Userdata").child(userId).child("books_purchased").child(book_key);
+
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                bookPurchased = snapshot.exists();
+                if(snapshot.exists())
+                {
+                    book_library_read_slider.setText("Read now");
+                }
+                else
+                {
+                    book_library_read_slider.setText("Buy now");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
 
         back_card.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,18 +220,31 @@ public class Book_MarketDisplayActivity extends Activity {
             public void onSlideComplete(@NonNull SlideToActView slideToActView) {
                 book_epub_dir = new File(getApplicationContext().getExternalFilesDir(null),book_key);
 
+                if(!bookPurchased)
+                {
+                    dbRef.setValue("");
+                }
+                dbRef.child("last_read").setValue(ServerValue.TIMESTAMP);
+
+
+
                 book_epub_file = new File(book_epub_dir,"book_epub.epub");
-                if(book_epub_file.exists())
+                if(book_epub_file.exists() && bookPurchased)
                 {
                     Toast.makeText(Book_MarketDisplayActivity.this, "book exists", Toast.LENGTH_SHORT).show();
                     Intent ii = new Intent(Book_MarketDisplayActivity.this,BookReadActivity.class);
                     ii.putExtra("epubFilePath",book_epub_file.getPath());
                     startActivity(ii);
                 }
-                else{
+                else if(!book_epub_file.exists()){
                     Toast.makeText(Book_MarketDisplayActivity.this, "doesn't exist", Toast.LENGTH_SHORT).show();
                     downloadEpub(book_epub_dir);
-
+                }
+                else if(!bookPurchased)
+                {
+                    Intent ii = new Intent(Book_MarketDisplayActivity.this,MainActivity.class);
+                    ii.putExtra("fragment_number",R.id.librarymenu);
+                    startActivity(ii);
                 }
             }
         });
@@ -321,9 +364,20 @@ public class Book_MarketDisplayActivity extends Activity {
                         if (status == DownloadManager.STATUS_SUCCESSFUL) {
                             // Download completed successfully
                             Toast.makeText(context, "Book downloaded successfully", Toast.LENGTH_SHORT).show();
-                            Intent ii = new Intent(getApplicationContext(),BookReadActivity.class);
-                            ii.putExtra("epubFilePath",book_epub_file.getPath());
-                            startActivity(ii);
+
+                            if(bookPurchased)
+                            {
+
+                                Intent ii = new Intent(getApplicationContext(),BookReadActivity.class);
+                                ii.putExtra("epubFilePath",book_epub_file.getPath());
+                                startActivity(ii);
+                            }
+                            else
+                            {
+                                Intent ii = new Intent(getApplicationContext(), MainActivity.class);
+                                ii.putExtra("fragment_number",R.id.librarymenu);
+                                startActivity(ii);
+                            }
                         } else {
                             // Download failed, handle the error
                         }

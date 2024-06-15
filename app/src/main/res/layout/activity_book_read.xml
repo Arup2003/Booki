@@ -83,9 +83,36 @@
 
     <com.booki.ai.model.CustomWebView
         android:id="@+id/book_read_main_tv"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:paddingTop="40dp"
+        android:textColor="@color/background_contrast"
+        android:background="@color/background_color"
+        app:layout_constraintStart_toEndOf="@id/book_read_secondary_tv"
+        app:layout_constraintEnd_toStartOf="@id/book_read_tertiary_tv"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/book_read_page_no"/>
+
+
+    <com.booki.ai.model.CustomWebView
+        android:id="@+id/book_read_secondary_tv"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:paddingTop="40dp"
+        android:textColor="@color/background_contrast"
+        android:background="@color/background_color"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/book_read_main_tv"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/book_read_page_no"/>
+
+    <com.booki.ai.model.CustomWebView
+        android:id="@+id/book_read_tertiary_tv"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:paddingTop="40dp"
+        app:layout_constraintStart_toEndOf="@id/book_read_main_tv"
+        app:layout_constraintEnd_toEndOf="parent"
         android:textColor="@color/background_contrast"
         android:background="@color/background_color"
         app:layout_constraintTop_toTopOf="parent"

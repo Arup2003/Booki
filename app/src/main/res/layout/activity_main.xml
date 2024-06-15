@@ -76,5 +76,22 @@
             app:menu="@menu/bottom_navigation_menu"/>
     </eightbitlab.com.blurview.BlurView>
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/book_library_current_read_cv"
+        android:layout_width="60dp"
+        android:layout_height="85dp"
+        app:cardCornerRadius="6dp"
+        android:layout_marginTop="-25dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/main_activity_bottomnavigation_blurview">
+        <ImageView
+            android:id="@+id/book_library_current_read_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,23 +1,16 @@
 package com.booki.ai.fragment;
 
-import android.content.Context;
 import android.graphics.Color;
-import android.os.Bundle;
-import android.util.TypedValue;
 import android.webkit.WebView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.booki.ai.activity.BookReadActivity;
 import com.booki.ai.adapter.FontStyleAdapter;
-import com.booki.ai.adapter.InfiniteSnippetsAdapter;
 import com.booki.ai.adapter.PageColorAdapter;
-import com.booki.ai.adapter.PageReadAdapter;
 import com.booki.ai.model.FontStyleModel;
 import com.booki.ai.model.PageColorModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;

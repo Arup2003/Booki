@@ -10,6 +10,7 @@ import android.os.Message;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -46,7 +47,10 @@ import nl.siegmann.epublib.epub.EpubReader;
 
 public class BookReadActivity extends Activity implements View.OnTouchListener, Handler.Callback  {
 
-    static CustomWebView book_read_main_tv;
+    static CustomWebView book_read_main_tv, book_read_secondary_tv, book_read_tertiary_tv;
+
+    int web_view_displayed_on_screen = 0;
+    int currentScrollY = 0;
     static TextView book_read_page_no;
     ImageView book_read_edit_text_icon;
     LinearLayout book_read_chapter_inidex;
@@ -93,6 +97,8 @@ public class BookReadActivity extends Activity implements View.OnTouchListener, 
         book_read_chapter_menu = findViewById(R.id.book_read_chapter_menu);
         book_read_side_sheet = findViewById(R.id.book_read_side_sheet);
         book_read_chapter_inidex = findViewById(R.id.book_read_chapter_index);
+        book_read_secondary_tv = findViewById(R.id.book_read_secondary_tv);
+        book_read_tertiary_tv = findViewById(R.id.book_read_tertiary_tv);
 
 
         sideSheetBehavior = SideSheetBehavior.from(book_read_side_sheet);
@@ -121,6 +127,32 @@ public class BookReadActivity extends Activity implements View.OnTouchListener, 
 
             }
         });
+        book_read_secondary_tv.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                view.setScrollY(scrollY);
+                view.setScrollX(scrollX);
+
+                calculateTotalCharacters();
+
+                System.out.println("🫂🫂🫂"+currPage);
+//                scrollToPage(currPage);
+
+            }
+        });
+        book_read_tertiary_tv.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                view.setScrollY(scrollY);
+                view.setScrollX(scrollX);
+
+                calculateTotalCharacters();
+
+                System.out.println("🫂🫂🫂"+currPage);
+//                scrollToPage(currPage);
+
+            }
+        });
 
         book_read_main_tv.setOnScrollChangedCallback(new CustomWebView.OnScrollChangedCallback() {
             @Override
@@ -131,6 +163,28 @@ public class BookReadActivity extends Activity implements View.OnTouchListener, 
 
         book_read_main_tv.setOnTouchListener(this);
         book_read_main_tv.setHorizontalScrollBarEnabled(false);
+
+        book_read_secondary_tv.setOnScrollChangedCallback(new CustomWebView.OnScrollChangedCallback() {
+            @Override
+            public void onScroll(int l, int t) {
+                calculateCharactersScrolled(t);
+            }
+        });
+
+        book_read_secondary_tv.setOnTouchListener(this);
+        book_read_secondary_tv.setHorizontalScrollBarEnabled(false);
+
+
+        book_read_tertiary_tv.setOnScrollChangedCallback(new CustomWebView.OnScrollChangedCallback() {
+            @Override
+            public void onScroll(int l, int t) {
+                calculateCharactersScrolled(t);
+            }
+        });
+
+        book_read_tertiary_tv.setOnTouchListener(this);
+        book_read_tertiary_tv.setHorizontalScrollBarEnabled(false);
+
 
         gestureDetector = new GestureDetector(this, new MyGestureListener());
 
@@ -162,13 +216,10 @@ public class BookReadActivity extends Activity implements View.OnTouchListener, 
             @Override
             public void onClick(View v) {
                 CustomiseTextBottomSheet customiseTextBottomSheet = new CustomiseTextBottomSheet(BookReadActivity.this, book_read_main_tv, book_read_page_no);
+
                 customiseTextBottomSheet.show();
             }
         });
-
-        epubRef = FirebaseStorage.getInstance().getReference("Marketplace").child("Books").child("-Ny4flKSln1hP6de6VLJ").child("book_epub");
-
-
 
 
 
@@ -338,19 +389,54 @@ public class BookReadActivity extends Activity implements View.OnTouchListener, 
 
     public static void loadData()
     {
-        scrollY = book_read_main_tv.getScrollY();
+        //scrollY = book_read_main_tv.getScrollY();
         book_read_main_tv.loadDataWithBaseURL(null, head+htmlStyle+webData+htmlStyleEnd,"text/html", "UTF-8",null);
+        book_read_secondary_tv.loadDataWithBaseURL(null, head+htmlStyle+webData+htmlStyleEnd,"text/html", "UTF-8",null);
+        book_read_tertiary_tv.loadDataWithBaseURL(null, head+htmlStyle+webData+htmlStyleEnd,"text/html", "UTF-8",null);
+
+    }
+
+    private void scrollToNextPage() {
+        book_read_main_tv.evaluateJavascript(
+                "(function() { return document.body.scrollHeight; })();",
+                new ValueCallback<String>() {
+                    @Override
+                    public void onReceiveValue(String value) {
+                        int contentHeight = Integer.parseInt(value);
+                        int webViewHeight = book_read_main_tv.getHeight();
+
+                        if (currentScrollY + webViewHeight < contentHeight) {
+                            currentScrollY += webViewHeight;
+
+                            // Ensure no lines are cut off
+//                            int additionalScroll = currentScrollY % lineHeight;
+//                            currentScrollY -= additionalScroll;
+
+                            book_read_main_tv.scrollTo(0, currentScrollY);
+                            book_read_tertiary_tv.scrollTo(0, currentScrollY + webViewHeight);
+                            book_read_secondary_tv.scrollTo(0, currentScrollY - webViewHeight);
+
+
+                        }
+                    }
+                }
+        );
     }
 
 
 
-    @Override
+
+
+
+
+        @Override
     public boolean handleMessage(@NonNull Message msg) {
         if (msg.what == CLICK_ON_WEBVIEW){
-            int visibility = book_read_top_panel.getVisibility() == View.VISIBLE ? View.INVISIBLE : View.VISIBLE;
-
-            book_read_top_panel.setVisibility(visibility);
-            book_read_pill_panel.setVisibility(visibility);
+//            int visibility = book_read_top_panel.getVisibility() == View.VISIBLE ? View.INVISIBLE : View.VISIBLE;
+//
+//            book_read_top_panel.setVisibility(visibility);
+//            book_read_pill_panel.setVisibility(visibility);
+            scrollToNextPage();
             return true;
         }
         return false;

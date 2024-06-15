@@ -9,14 +9,11 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
-import com.booki.ai.IndividualPageActivity;
 import com.booki.ai.R;
 import com.booki.ai.activity.BookReadActivity;
 import com.booki.ai.fragment.CustomiseTextBottomSheet;
